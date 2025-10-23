@@ -20,6 +20,8 @@ class wxWebViewEvent;
 wxDECLARE_EVENT(EVT_PRINTABLES_CONNECT_PRINT, wxCommandEvent);
 
 namespace Slic3r::GUI {
+// forward-declare helper implemented in WebViewPanel.cpp
+wxString strip_moonraker_port(const wxString& url);
 
 class WebViewPanel : public wxPanel
 {
@@ -66,7 +68,9 @@ public:
     virtual void on_navigation_request(wxWebViewEvent &evt);
 
     virtual wxString get_default_url() const { return m_default_url; }
-    void set_default_url(const wxString& url) { m_default_url = url; }
+    //void set_default_url(const wxString& url) { m_default_url = url; }
+    void set_default_url(const wxString& url) { m_default_url = strip_moonraker_port(url); }
+
     virtual void do_reload();
     virtual void load_default_url();
 

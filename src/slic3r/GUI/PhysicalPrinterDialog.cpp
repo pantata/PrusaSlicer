@@ -569,6 +569,11 @@ void PhysicalPrinterDialog::build_printhost_settings(ConfigOptionsGroup* m_optgr
         m_optgroup->append_single_option_line(option);
     }
 
+    // Web UI address for Moonraker (visible only when host_type == htMoonraker)
+    option = m_optgroup->get_option("printhost_webui");
+    option.opt.width = Field::def_width_wider();
+    m_optgroup->append_single_option_line(option);
+
 #ifdef WIN32
     option = m_optgroup->get_option("printhost_ssl_ignore_revoke");
     option.opt.width = Field::def_width_wider();
@@ -626,6 +631,8 @@ void PhysicalPrinterDialog::update_printhost_buttons()
 void PhysicalPrinterDialog::update(bool printer_change)
 {
     m_optgroup->reload_config();
+    // ensure printhost_webui is hidden by default; it will be shown only for htMoonraker
+    m_optgroup->hide_field("printhost_webui");
 
     const PrinterTechnology tech = Preset::printer_technology(*m_config);
     // Only offer the host type selection for FFF, for SLA it's always the SL1 printer (at the moment)
@@ -670,6 +677,16 @@ void PhysicalPrinterDialog::update(bool printer_change)
             }
         }
         
+        if (opt->value == htMoonraker) {
+            BOOST_LOG_TRIVIAL(debug) << "PRINTER SETTING MOONRAKER HOST TYPE";
+
+            // Moonraker currently requires API key
+            m_optgroup->show_field("printhost_webui", true);
+            /*
+            for (const std::string& opt_key : std::vector<std::string>{ "printhost_user", "printhost_password" })
+                m_optgroup->hide_field(opt_key);
+            */
+        }
         m_last_host_type = opt->value;
     }
     else {

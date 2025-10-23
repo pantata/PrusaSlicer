@@ -922,6 +922,7 @@ void MainFrame::remove_printables_webview_tab()
     m_printables_webview->destroy_browser();
 }
 
+/*
 void MainFrame::show_printer_webview_tab(DynamicPrintConfig* dpc)
 {
     
@@ -942,6 +943,49 @@ void MainFrame::show_printer_webview_tab(DynamicPrintConfig* dpc)
         add_printer_webview_tab(from_u8(url));
     }
 }
+*/
+void MainFrame::show_printer_webview_tab(DynamicPrintConfig* dpc)
+{
+    remove_printer_webview_tab();
+    // if physical printer is selected
+    if (!dpc)
+        return;
+
+    const auto* host_opt = dpc->option<ConfigOptionEnum<PrintHostType>>("host_type");
+    if (!host_opt)
+        return;
+
+    if (host_opt->value == htPrusaConnect)
+        return;
+
+    // choose URL: for Moonraker prefer printhost_webui, fallback to print_host
+    std::string url;
+    if (host_opt->value == htMoonraker) {
+        url = dpc->opt_string("printhost_webui");
+        if (url.empty())
+            url = dpc->opt_string("print_host");
+    } else {
+        url = dpc->opt_string("print_host");
+    }
+
+    if (url.empty())
+        return;
+
+    if (url.find("http://") != 0 && url.find("https://") != 0) {
+        url = "http://" + url;
+    }
+
+    // set password / api key
+    const auto* auth_opt = dpc->option<ConfigOptionEnum<AuthorizationType>>("printhost_authorization_type");
+    if (auth_opt && auth_opt->value == AuthorizationType::atKeyPassword) {
+        set_printer_webview_api_key(dpc->opt_string("printhost_apikey"));
+    } else {
+        set_printer_webview_credentials(dpc->opt_string("printhost_user"), dpc->opt_string("printhost_password"));
+    }
+
+    add_printer_webview_tab(from_u8(url));
+}
+
 
 void MainFrame::add_printer_webview_tab(const wxString& url)
 {

@@ -431,6 +431,14 @@ void PrintConfigDef::init_common_params()
     def->cli = ConfigOptionDef::nocli;
     def->set_default_value(new ConfigOptionString(""));
 
+    def = this->add("printhost_webui", coString);
+    def->label = L("Web UI URL");
+    def->tooltip = L("URL Mainsail/Fluid. This field should contain "
+                   "the hostname, IP address or URL of the web ui host instance");
+    def->mode = comAdvanced;
+    def->cli = ConfigOptionDef::nocli;
+    def->set_default_value(new ConfigOptionString(""));
+
     def = this->add("printhost_apikey", coString);
     def->label = L("API Key / Password");
     def->tooltip = L("Slic3r can upload G-code files to a printer host. This field should contain "

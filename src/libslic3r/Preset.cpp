@@ -551,7 +551,7 @@ static std::vector<std::string> s_Preset_printer_options {
     "bed_shape", "bed_custom_texture", "bed_custom_model", "binary_gcode", "z_offset", "gcode_flavor", "use_relative_e_distances",
     "use_firmware_retraction", "use_volumetric_e", "variable_layer_height", "prefer_clockwise_movements",
     //FIXME the print host keys are left here just for conversion from the Printer preset to Physical Printer preset.
-    "host_type", "print_host", "printhost_apikey", "printhost_cafile",
+    "host_type", "print_host", "printhost_webui","printhost_apikey", "printhost_cafile",
     "single_extruder_multi_material", "custom_parameters_printer", "start_gcode", "end_gcode", "before_layer_gcode", "layer_gcode", "toolchange_gcode",
     "color_change_gcode", "pause_print_gcode", "template_custom_gcode",
     "between_objects_gcode", "printer_vendor", "printer_model", "printer_variant", "printer_notes", "cooling_tube_retraction",
@@ -1736,6 +1736,7 @@ static std::vector<std::string> s_PhysicalPrinter_opts {
     "print_host",
     "printhost_apikey",
     "printhost_cafile",
+     "printhost_webui",
     "printhost_port",
     "printhost_authorization_type",
     // HTTP digest authentization (RFC 2617)
@@ -1782,6 +1783,7 @@ const std::set<std::string>& PhysicalPrinter::get_preset_names() const
 bool PhysicalPrinter::has_empty_config() const
 {
     return  config.opt_string("print_host"        ).empty() &&
+            config.opt_string("printhost_webui"   ).empty() &&
             config.opt_string("printhost_apikey"  ).empty() &&
             config.opt_string("printhost_cafile"  ).empty() &&
             config.opt_string("printhost_port"    ).empty() &&

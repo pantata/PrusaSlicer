@@ -982,9 +982,35 @@ void ConnectWebViewPanel::define_css()
 #endif // defined(__APPLE__)
 }
 
-PrinterWebViewPanel::PrinterWebViewPanel(wxWindow* parent, const wxString& default_url)
-    : WebViewPanel(parent, default_url, {"ExternalApp"}, "other_loading", "other_error", false)
+// Pomocná funkce pro odstranění portu
+wxString strip_moonraker_port(const wxString& url)
 {
+    BOOST_LOG_TRIVIAL(debug) << "IP: " << url;
+    // Cílíme na :7125. Toto řešení je specifické a bezpečnější než obecné parsování.
+    wxString port_marker = ":7125";
+    int pos = url.Find(port_marker);
+
+    if (pos == wxNOT_FOUND) {
+        return url; // Port 7125 nebyl nalezen, vrátíme původní URL.
+    }
+    
+    // Zkopírujeme URL
+    wxString new_url = url;
+
+    // Odstraníme ":7125" z URL.
+    new_url.Remove(pos, port_marker.length());
+
+    // Poznámka: Pokud URL měla formát http://host:7125/path, výsledkem bude http://host/path.
+    // Pokud měla formát http://host:7125, výsledkem bude http://host.
+    BOOST_LOG_TRIVIAL(debug) << "NEW IP: " << new_url;
+    return new_url;
+}
+
+PrinterWebViewPanel::PrinterWebViewPanel(wxWindow* parent, const wxString& default_url)
+    //: WebViewPanel(parent, default_url, {"ExternalApp"}, "other_loading", "other_error", false)
+    : WebViewPanel(parent, strip_moonraker_port(default_url), {"ExternalApp"}, "other_loading", "other_error", false)
+{
+    BOOST_LOG_TRIVIAL(debug) << "PRINTER PANEL:" << default_url;
     m_events["reloadHomePage"] = std::bind(&PrinterWebViewPanel::on_reload_event, this, std::placeholders::_1);
     m_events["appQuit"] = std::bind(&WebViewPanel::on_app_quit_event, this, std::placeholders::_1);
     m_events["appMinimize"] = std::bind(&WebViewPanel::on_app_minimize_event, this, std::placeholders::_1);
