@@ -4,7 +4,7 @@ set -euo pipefail
 # === upravitelné proměnné ===
 EXEC="build/src/PrusaSlicer"
 APPNAME="PrusaSlicer"            # výsledný bundle bude PrusaSlicer.app
-ICON="resources/PrusaSlicer.icns"  # volitelně
+ICON="resources/icons/PrusaSlicer.icns"  # volitelně
 RES_DIR="resources"   # zdrojová resources (icons, splash, translations...)
 OUT_DIR="$(pwd)"                 # výstupní adresář pro .app
 

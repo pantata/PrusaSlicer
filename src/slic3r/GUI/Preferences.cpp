@@ -135,11 +135,14 @@ void PreferencesDialog::show(const std::string& highlight_opt_key /*= std::strin
 		downloader->set_path_name(app_config->get("url_downloader_dest"));
 		downloader->allow(!app_config->has("downloader_url_registered") || app_config->get_bool("downloader_url_registered"));
 
-		for (const std::string opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button", "show_step_import_parameters"})
+		for (const std::string opt_key : {"suppress_hyperlinks", "downloader_url_registered", "show_login_button", "show_step_import_parameters", "show_prusa_connect"})
 			m_optgroup_other->set_value(opt_key, app_config->get_bool(opt_key));
 		// by default "Log in" button is visible
 		if (!app_config->has("show_login_button"))
 			m_optgroup_other->set_value("show_login_button", true);
+		// by default "Prusa Connect" tab is visible
+		if (!app_config->has("show_prusa_connect"))
+			m_optgroup_other->set_value("show_prusa_connect", false);
 
 		for (const std::string opt_key : { "default_action_on_close_application"
 										   ,"default_action_on_new_project"
@@ -638,6 +641,11 @@ void PreferencesDialog::build()
 			L("Show \"Log in\" button in application top bar"),
 			L("If enabled, PrusaSlicer will show up \"Log in\" button in application top bar."),
 			app_config->get_bool("show_login_button"));
+
+		append_bool_option(m_optgroup_other, "show_prusa_connect",
+			L("Show Prusa Connect tab"),
+			L("If enabled, PrusaSlicer will show Prusa Connect tab when logged in."),
+			app_config->get_bool("show_prusa_connect"));
 
 		append_bool_option(m_optgroup_other, "downloader_url_registered",
 			L("Allow downloads from supported websites (e.g. Printables.com)"),

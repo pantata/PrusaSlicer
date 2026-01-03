@@ -819,7 +819,10 @@ void MainFrame::create_preset_tabs()
 
 void MainFrame::on_account_login(const std::string& token)
 {
-    add_connect_webview_tab();
+    // Show Prusa Connect tab only if enabled in settings
+    const bool show_prusa_connect = !wxGetApp().app_config->has("show_prusa_connect") || wxGetApp().app_config->get_bool("show_prusa_connect");
+    if (show_prusa_connect)
+        add_connect_webview_tab();
     assert (m_printables_webview);
     m_printables_webview->login(token);
 }

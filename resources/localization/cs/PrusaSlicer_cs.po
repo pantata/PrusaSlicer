@@ -18600,7 +18600,15 @@ msgstr ""
 "Pokud je tato funkce povolena, PrusaSlicer zobrazí v horní liště aplikace "
 "tlačítko \"Přihlásit se\"."
 
+#: src/slic3r/GUI/Preferences.cpp:642
+msgid "Show Prusa Connect tab"
+msgstr "Zobrazit záložku Prusa Connect"
+
 #: src/slic3r/GUI/Preferences.cpp:643
+msgid "If enabled, PrusaSlicer will show Prusa Connect tab when logged in."
+msgstr "Pokud je povoleno, PrusaSlicer zobrazí záložku Prusa Connect, když jste přihlášeni."
+
+#: src/slic3r/GUI/Preferences.cpp:646
 msgid "Allow downloads from supported websites (e.g. Printables.com)"
 msgstr "Povolit stahování z podporovaných webů (např. Printables.com)"
 
