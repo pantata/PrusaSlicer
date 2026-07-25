@@ -36,6 +36,77 @@ cat > "${OUT_DIR}/${APPNAME}.app/Contents/Info.plist" <<'PLIST'
   <key>CFBundleShortVersionString</key><string>0.1</string>
   <key>CFBundleIconFile</key>    <string>PrusaSlicer.icns</string>
   <key>LSMinimumSystemVersion</key><string>10.14</string>
+
+  <!-- Registrace URL schématu pro přihlášení z webu / Printables. -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLName</key>
+      <string>PrusaSlicer URL</string>
+      <key>CFBundleTypeRole</key>
+      <string>Viewer</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>prusaslicer</string>
+      </array>
+    </dict>
+  </array>
+
+  <!-- Registrace podporovaných souborů. -->
+  <key>CFBundleDocumentTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>3MF Document</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>3mf</string>
+      </array>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>LSHandlerRank</key>
+      <string>Owner</string>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>STL Document</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>stl</string>
+        <string>STL</string>
+      </array>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>LSHandlerRank</key>
+      <string>Alternate</string>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>OBJ Document</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>obj</string>
+        <string>OBJ</string>
+      </array>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>LSHandlerRank</key>
+      <string>Alternate</string>
+    </dict>
+    <dict>
+      <key>CFBundleTypeName</key>
+      <string>STEP Document</string>
+      <key>CFBundleTypeExtensions</key>
+      <array>
+        <string>stp</string>
+        <string>step</string>
+      </array>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>LSHandlerRank</key>
+      <string>Alternate</string>
+    </dict>
+  </array>
 </dict>
 </plist>
 PLIST
